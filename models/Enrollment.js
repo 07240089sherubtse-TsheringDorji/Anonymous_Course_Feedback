@@ -1,5 +1,5 @@
 
-const db = require('../config/db');
+const { db } = require('../config/db');
 
 async function findStudentById(studentId) {
   return db.oneOrNone(
