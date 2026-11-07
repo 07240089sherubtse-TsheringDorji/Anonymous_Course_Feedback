@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 
 const pgPromise = require('pg-promise');
@@ -10,7 +11,10 @@ const db = pgp({
   database: process.env.PGDATABASE || 'anonymous_course_feedback',
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
-  connectionTimeoutMillis: 5000,
+  ssl: process.env.NODE_ENV === 'production'
+    ? { rejectUnauthorized: false }
+    : false,
+  connectionTimeoutMillis: 10000,
   application_name: 'anonymous-course-feedback-api'
 });
 
@@ -27,9 +31,7 @@ async function testConnection() {
     console.log('Server time:', result.server_time);
   } catch (error) {
     console.error('PostgreSQL connection failed:', error.message);
-    process.exitCode = 1;
-  } finally {
-    await pgp.end();
+    throw error;
   }
 }
 
