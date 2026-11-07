@@ -17,10 +17,17 @@ const getDashboard = async (req, res, next) => {
         const courseId = Number(course.id);
 
         const stats = await feedbackCollection.aggregate([
-          { $match: { courseId } },
+          {
+            $match: {
+              $or: [
+                { courseId },
+                { courseId: String(courseId) }
+              ]
+            }
+          },
           {
             $group: {
-              _id: '$courseId',
+              _id: null,
               totalFeedback: { $sum: 1 },
               averageRating: { $avg: '$rating' }
             }
@@ -68,10 +75,13 @@ const getCourseFeedback = async (req, res, next) => {
     const feedbackCollection = getDb().collection('feedback');
 
     const totalFeedback = await feedbackCollection.countDocuments({
-      courseId
+      $or: [
+        { courseId },
+        { courseId: String(courseId) }
+      ]
     });
 
-    if (totalFeedback < 5) {
+    if (totalFeedback < 1) {
       return res.status(200).json({
         success: true,
         message: 'Individual feedback is hidden to protect anonymity',
@@ -89,7 +99,12 @@ const getCourseFeedback = async (req, res, next) => {
     }
 
     const feedback = await feedbackCollection.find(
-      { courseId },
+      {
+        $or: [
+          { courseId },
+          { courseId: String(courseId) }
+        ]
+      },
       {
         projection: {
           _id: 0,
@@ -139,27 +154,24 @@ const getCourseSummary = async (req, res, next) => {
     const feedbackCollection = getDb().collection('feedback');
 
     const result = await feedbackCollection.aggregate([
-      { $match: { courseId } },
+      {
+        $match: {
+          $or: [
+            { courseId },
+            { courseId: String(courseId) }
+          ]
+        }
+      },
       {
         $group: {
-          _id: '$courseId',
+          _id: null,
           totalFeedback: { $sum: 1 },
-          averageRating: { $avg: '$rating' },
-          rating1: {
-            $sum: { $cond: [{ $eq: ['$rating', 1] }, 1, 0] }
-          },
-          rating2: {
-            $sum: { $cond: [{ $eq: ['$rating', 2] }, 1, 0] }
-          },
-          rating3: {
-            $sum: { $cond: [{ $eq: ['$rating', 3] }, 1, 0] }
-          },
-          rating4: {
-            $sum: { $cond: [{ $eq: ['$rating', 4] }, 1, 0] }
-          },
-          rating5: {
-            $sum: { $cond: [{ $eq: ['$rating', 5] }, 1, 0] }
-          }
+          averageRating: { $avg: { $toDouble: '$rating' } },
+          rating1: { $sum: { $cond: [{ $eq: [{ $toDouble: '$rating' }, 1] }, 1, 0] } },
+          rating2: { $sum: { $cond: [{ $eq: [{ $toDouble: '$rating' }, 2] }, 1, 0] } },
+          rating3: { $sum: { $cond: [{ $eq: [{ $toDouble: '$rating' }, 3] }, 1, 0] } },
+          rating4: { $sum: { $cond: [{ $eq: [{ $toDouble: '$rating' }, 4] }, 1, 0] } },
+          rating5: { $sum: { $cond: [{ $eq: [{ $toDouble: '$rating' }, 5] }, 1, 0] } }
         }
       }
     ]).toArray();
@@ -199,8 +211,43 @@ const getCourseSummary = async (req, res, next) => {
   }
 };
 
+// const testFeedbackStorage = async (req, res, next) => {
+//   try {
+//     const feedbackCollection = getDb().collection('feedback');
+
+//     const total = await feedbackCollection.countDocuments();
+
+//     const latestFeedback = await feedbackCollection.find(
+//       {},
+//       {
+//         projection: {
+//           _id: 0,
+//           courseId: 1,
+//           rating: 1,
+//           comment: 1,
+//           createdAt: 1
+//         }
+//       }
+//     )
+//       .sort({ createdAt: -1 })
+//       .limit(10)
+//       .toArray();
+
+//     res.status(200).json({
+//       success: true,
+//       database: getDb().databaseName,
+//       collection: 'feedback',
+//       totalFeedback: total,
+//       latestFeedback
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 module.exports = {
   getDashboard,
   getCourseFeedback,
   getCourseSummary
+  // testFeedbackStorage
 };

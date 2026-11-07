@@ -1,3 +1,4 @@
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS feedback_submissions (
     student_id INTEGER NOT NULL,
     course_id INTEGER NOT NULL,
     submitted_on DATE NOT NULL DEFAULT CURRENT_DATE,
+    submission_month DATE NOT NULL DEFAULT DATE_TRUNC('month', CURRENT_DATE)::DATE,
 
     CONSTRAINT feedback_submissions_student_fk
         FOREIGN KEY (student_id)
@@ -72,8 +74,8 @@ CREATE TABLE IF NOT EXISTS feedback_submissions (
         REFERENCES courses(id)
         ON DELETE RESTRICT,
 
-    CONSTRAINT feedback_submissions_student_course_unique
-        UNIQUE (student_id, course_id)
+    CONSTRAINT feedback_submissions_student_course_month_unique
+        UNIQUE (student_id, course_id, submission_month)
 );
 
 

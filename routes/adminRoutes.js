@@ -5,7 +5,8 @@ const { param } = require('express-validator');
 const {
   getDashboard,
   getCourseFeedback,
-  getCourseSummary
+  getCourseSummary,
+  testFeedbackStorage
 } = require('../controllers/adminController');
 
 const authenticateToken = require('../middleware/authMiddleware');
@@ -17,26 +18,26 @@ const router = express.Router();
 router.use(authenticateToken);
 router.use(requireRole('admin'));
 
+const courseIdValidation = [
+  param('courseId')
+    .isInt({ min: 1 })
+    .withMessage('Course ID must be a positive integer')
+];
+
 router.get('/dashboard', getDashboard);
+
+// router.get('/test-feedback-storage', testFeedbackStorage);
 
 router.get(
   '/feedback/:courseId',
-  [
-    param('courseId')
-      .isInt({ min: 1 })
-      .withMessage('Course ID must be a positive integer')
-  ],
+  courseIdValidation,
   validateRequest,
   getCourseFeedback
 );
 
 router.get(
   '/feedback/:courseId/summary',
-  [
-    param('courseId')
-      .isInt({ min: 1 })
-      .withMessage('Course ID must be a positive integer')
-  ],
+  courseIdValidation,
   validateRequest,
   getCourseSummary
 );

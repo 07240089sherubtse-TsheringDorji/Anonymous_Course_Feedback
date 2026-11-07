@@ -1,9 +1,11 @@
-
 const express = require('express');
 const { body } = require('express-validator');
 
-const feedbackController =
-  require('../controllers/feedbackController');
+const {
+  submitFeedback,
+  getMyFeedbackCount,
+  getMyMonthlyFeedbackStatus
+} = require('../controllers/feedbackController');
 
 const authenticateToken =
   require('../middleware/authMiddleware');
@@ -16,9 +18,7 @@ const validateRequest =
 
 const router = express.Router();
 
-
 router.use(authenticateToken);
-
 
 router.post(
   '/',
@@ -39,7 +39,19 @@ router.post(
       .withMessage('Comment must contain 5 to 1000 characters')
   ],
   validateRequest,
-  feedbackController.submitFeedback
+  submitFeedback
+);
+
+router.get(
+  '/my-count',
+  requireRole('student'),
+  getMyFeedbackCount
+);
+
+router.get(
+  '/my-status',
+  requireRole('student'),
+  getMyMonthlyFeedbackStatus
 );
 
 module.exports = router;

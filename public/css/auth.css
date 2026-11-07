@@ -1,0 +1,221 @@
+
+.auth-page {
+    min-height: 100vh;
+    background: #f5f6f7;
+}
+
+.auth-header {
+    min-height: 85px;
+    padding: 12px 7%;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.back-home {
+    color: #193e68;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.auth-main {
+    max-width: 1100px;
+    min-height: 610px;
+    margin: 45px auto;
+    padding: 0 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+}
+
+.auth-image {
+    min-height: 560px;
+    padding: 55px;
+    display: flex;
+    align-items: flex-end;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            0deg,
+            rgba(9, 29, 53, 0.92),
+            rgba(9, 29, 53, 0.25)
+        ),
+        url("https://www.unicef.org/bhutan/sites/unicef.org.bhutan/files/styles/open_graph_image/public/Students%20at%20Sherubtse%20College%20campus.jpeg?itok=w4obVH4f")
+        center / cover no-repeat;
+}
+
+.auth-image h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 39px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.auth-image p:not(.eyebrow) {
+    color: #e5eaf0;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.auth-image .eyebrow {
+    color: #e5c779;
+}
+
+.auth-form-section {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 45px;
+    border: 1px solid #e5e7eb;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 380px;
+}
+
+.auth-form h2 {
+    color: #102b4e;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-intro {
+    color: #687585;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.auth-form label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #29394b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.auth-form input {
+    width: 100%;
+    height: 45px;
+    padding: 0 13px;
+    border: 1px solid #d8dde4;
+    border-radius: 3px;
+    outline: none;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.auth-form input:focus {
+    border-color: #193e68;
+    box-shadow: 0 0 0 2px rgba(25, 62, 104, 0.08);
+}
+
+.auth-submit {
+    width: 100%;
+    margin-top: 25px;
+    min-height: 46px;
+    background: #102b4e;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.auth-submit:hover {
+    background: #193e68;
+}
+
+.auth-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.auth-switch {
+    margin-top: 18px;
+    color: #687585;
+    text-align: center;
+    font-size: 12px;
+}
+
+.auth-switch a {
+    color: #98701c;
+    font-weight: 700;
+}
+
+.form-message {
+    display: none;
+    padding: 11px 13px;
+    margin: 15px 0;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.form-message.show {
+    display: block;
+}
+
+.form-message.error {
+    color: #8b2525;
+    background: #fff0f0;
+    border: 1px solid #f1caca;
+}
+
+.form-message.success {
+    color: #21633b;
+    background: #edf8f0;
+    border: 1px solid #c8e8d0;
+}
+
+.auth-footer {
+    padding: 20px;
+    color: #687585;
+    text-align: center;
+    font-size: 11px;
+}
+
+@media (max-width: 800px) {
+    .auth-main {
+        grid-template-columns: 1fr;
+        margin: 25px auto;
+    }
+
+    .auth-image {
+        min-height: 260px;
+        padding: 30px;
+    }
+
+    .auth-form-section {
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 500px) {
+    .auth-header {
+        padding: 12px 5%;
+    }
+
+    .back-home {
+        font-size: 11px;
+    }
+
+    .auth-main {
+        padding: 0 12px;
+    }
+
+    .auth-image h1 {
+        font-size: 30px;
+    }
+
+    .auth-form-section {
+        padding: 30px 18px;
+    }
+}

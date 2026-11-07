@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administrator Dashboard | Sherubtse College</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+
+        <a href="/" class="brand">
+            <img src="/images/sherubtse-logo.png" alt="Sherubtse College Logo">
+
+            <div class="brand-text">
+                <strong>SHERUBTSE COLLEGE</strong>
+                <span>Administrator Portal</span>
+            </div>
+        </a>
+
+        <div class="header-actions">
+            <span>Administrator</span>
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+                type="button"
+                aria-label="Log out of administrator account"
+            >
+                Logout
+            </button>
+        </div>
+
+    </header>
+
+    <main class="admin-container">
+
+        <section class="dashboard-welcome">
+            <p class="eyebrow">ADMINISTRATOR PORTAL</p>
+
+            <h1>Welcome, Administrator</h1>
+
+            <p>
+                Manage academic courses and review anonymous
+                course feedback from students.
+            </p>
+        </section>
+
+        <div
+            id="adminMessage"
+            class="dashboard-message"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+        <section class="admin-stats">
+
+            <article class="summary-card">
+                <span class="summary-label">Total Courses</span>
+                <strong id="totalCourses">0</strong>
+            </article>
+
+            <article class="summary-card">
+                <span class="summary-label">Total Feedback</span>
+                <strong id="totalFeedback">0</strong>
+            </article>
+
+            <article class="summary-card">
+                <span class="summary-label">Average Rating</span>
+                <strong id="overallRating">—</strong>
+            </article>
+
+        </section>
+
+        <section class="admin-section">
+
+            <div class="admin-section-heading">
+                <div>
+                    <p class="eyebrow">ACADEMIC MANAGEMENT</p>
+                    <h2>Course Management</h2>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+
+                <h3>Create a New Course</h3>
+
+                <form id="courseForm" class="admin-form">
+
+                    <div class="form-row">
+
+                        <div>
+                            <label for="courseCode">Course Code</label>
+
+                            <input
+                                type="text"
+                                id="courseCode"
+                                name="code"
+                                placeholder="e.g. CSP301"
+                                required
+                            >
+                        </div>
+
+                        <div>
+                            <label for="courseTitle">Course Title</label>
+
+                            <input
+                                type="text"
+                                id="courseTitle"
+                                name="title"
+                                placeholder="Enter course title"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+                    <label for="courseDescription">Description</label>
+
+                    <textarea
+                        id="courseDescription"
+                        name="description"
+                        placeholder="Enter course description"
+                        rows="3"
+                    ></textarea>
+
+                    <button
+                        type="submit"
+                        class="admin-primary-button"
+                        id="createCourseButton"
+                    >
+                        Create Course
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="admin-panel">
+
+                <div class="panel-heading">
+                    <h3>Available Courses</h3>
+
+                    <button
+                        id="refreshCoursesButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="adminCourseList" class="admin-course-list">
+                    <p class="loading-text">Loading courses...</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="admin-section">
+
+            <div class="admin-section-heading">
+                <div>
+                    <p class="eyebrow">STUDENT OPINIONS</p>
+                    <h2>Course Feedback Reports</h2>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+
+                <div class="report-controls">
+
+                    <div>
+                        <label for="reportCourseId">Select Course</label>
+
+                        <select id="reportCourseId">
+                            <option value="">Select a course</option>
+                        </select>
+                    </div>
+
+                    <button
+                        id="loadReportButton"
+                        class="admin-primary-button"
+                        type="button"
+                    >
+                        View Report
+                    </button>
+
+                </div>
+
+                <div id="reportArea">
+                    <p class="empty-state">
+                        Select a course to view its feedback report.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="privacy-note">
+
+            <strong>Feedback privacy</strong>
+
+            <p>
+                Feedback is displayed anonymously, without student identity. Course comments become available to administrators once 
+                at least one feedback submission has been received for the course. Student identities are never displayed alongside feedback.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer class="dashboard-footer">
+        <p>
+            © <span id="currentYear"></span>
+            Sherubtse College · Royal University of Bhutan
+        </p>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/admin.js"></script>
+
+</body>
+</html>
