@@ -1,7 +1,9 @@
+
 require('dotenv').config();
 
 const app = require('./app');
 const { connectMongo, closeMongo } = require('./config/mongo');
+const { testConnection } = require('./config/db');
 
 const PORT = Number(process.env.PORT || 3000);
 
@@ -10,6 +12,10 @@ let shuttingDown = false;
 
 async function startServer() {
   try {
+    console.log('Starting Anonymous Course Feedback API...');
+
+    await testConnection();
+
     await connectMongo();
 
     server = app.listen(PORT, () => {
@@ -20,20 +26,19 @@ async function startServer() {
     });
 
     server.on('error', (err) => {
-      console.error('Server error:', err.message);
+      console.error('Server error:', err);
       process.exitCode = 1;
       shutdown();
     });
+
   } catch (error) {
-    console.error('Application startup failed:', error.message);
+    console.error('Application startup failed:');
+    console.error(error);
 
     try {
       await closeMongo();
     } catch (closeError) {
-      console.error(
-        'MongoDB cleanup failed:',
-        closeError.message
-      );
+      console.error('MongoDB cleanup failed:', closeError);
     }
 
     process.exitCode = 1;
@@ -57,7 +62,7 @@ async function shutdown() {
     await closeMongo();
     console.log('MongoDB connection closed.');
   } catch (error) {
-    console.error('Error closing MongoDB:', error.message);
+    console.error('Error closing MongoDB:', error);
     process.exitCode = 1;
   }
 }
